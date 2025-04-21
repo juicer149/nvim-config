@@ -1,0 +1,20 @@
+Tips och tricks i nvim
+
+
+w 		= nästa ord (word)
+b 		= föregående ord (back)
+e 		= slutet av aktuellt ord (end)
+%		= hoppa mellan matchande (/), [/], {/}
+0		= Gå till början av raden
+$		= Gå till slutet av raden
+^		= Gå till första icke withespace tecken
+
+{		= Gå till början av föregående "stycke"
+}		= Gå till början av nästa "stycke"
+
+f + <char>	= hoppar fram till nästa förekommst av <char>
+F + ------	= hoppar bak till föregående förekomsten av <char>
+t + <char>	= hoppar fram till tecknet innan <char>
+T + ------	= hoppar bakåt till tecknet innan <char>
+
+
