@@ -13,3 +13,7 @@ map("v", "jk", "<Esc>", { desc = "jk som Escape i visual-läge" })
 -- Leader-tangenter
 map("n", "<leader>w", ":w<CR>", { desc = "Spara fil" })
 map("n", "<leader>q", ":q<CR>", { desc = "Stäng fil" })
+
+-- Tab-navigering med Space+g och Space+f
+map("n", "<leader>g", "gt", { desc = "Nästa tab" })
+map("n", "<leader>f", "gT", { desc = "Föregående tab" })
