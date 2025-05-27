@@ -70,5 +70,12 @@ require("lazy").setup({
 
   -- LSP-konfiguration (integrerar språkserver för t.ex. Go, Lua, Python, JS m.m.)
   { "neovim/nvim-lspconfig" },
+
+  -- GitHub Copilot
+  {
+    "github/copilot.vim",
+    lazy = false,
+  },
 })
+
 

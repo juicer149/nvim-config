@@ -8,4 +8,9 @@ require("core.autocmds")
 require("core.commands")
 require("plugins")
 
+-- Ladda teman och färgscheman
 require("core.theme")
+
+-- Ladda plugins
+require("core.lsp")
+
