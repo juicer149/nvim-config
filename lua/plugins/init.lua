@@ -38,6 +38,9 @@ require("lazy").setup({
   -- Syntax highlighting och strukturell kodförståelse
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 
+  -- Nim syntax
+  { "zah/nim.vim" },
+
   -- Git-indikatorer i vänster marginal
   { "lewis6991/gitsigns.nvim" },
 
