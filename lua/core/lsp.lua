@@ -16,6 +16,12 @@ lspconfig.pyright.setup({
   on_attach = on_attach,
 })
 
+-- Nim 
+lspconfig.nim_langserver.setup({
+  on_attach = on_attach,
+})
+
+
 -- Go
 lspconfig.gopls.setup({
   on_attach = on_attach,
@@ -25,4 +31,5 @@ lspconfig.gopls.setup({
 lspconfig.clangd.setup({
   on_attach = on_attach,
 })
+
 
