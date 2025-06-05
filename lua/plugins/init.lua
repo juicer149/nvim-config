@@ -19,6 +19,8 @@ require("lazy").setup({
   { "rose-pine/neovim", name = "rose-pine", priority = 1000 },
   -- Gruvbox-tema (modern Lua-version med fler kontrastlägen)
   { "ellisonleao/gruvbox.nvim", priority = 1000 },
+  -- ljust tema
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
   -- Fuzzy finder (filnavigering och sökfunktioner)
   {
