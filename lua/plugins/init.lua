@@ -16,9 +16,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
   -- Färgtema
+  -- Nightfox
+  { "EdenEast/nightfox.nvim", priority = 1000 },
+
+  -- Rose Pine
   { "rose-pine/neovim", name = "rose-pine", priority = 1000 },
+
   -- Gruvbox-tema (modern Lua-version med fler kontrastlägen)
   { "ellisonleao/gruvbox.nvim", priority = 1000 },
+
   -- ljust tema
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
@@ -83,4 +89,5 @@ require("lazy").setup({
   },
 })
 
+vim.cmd.colorscheme "dayfox"
 

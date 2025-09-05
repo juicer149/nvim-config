@@ -4,7 +4,7 @@ local variants = {
   ["catppuccin"] = { "latte", "frappe", "macchiato", "mocha" },
 }
 
-local current_theme = "rose-pine"
+local current_theme = "gruvbox"
 local current_variant_index = 1
 
 local function apply_theme(theme, variant)
