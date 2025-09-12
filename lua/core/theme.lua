@@ -5,7 +5,7 @@ local variants = {
 }
 
 local current_theme = "gruvbox"
-local current_variant_index = 1
+local current_variant_index = 1 
 
 local function apply_theme(theme, variant)
   current_theme = theme
