@@ -2,9 +2,9 @@
 -- # Autokommandon – smarta automatiska beteenden i Neovim
 -- ############################################################
 
--- ==================================================
+-- ============================================================
 -- Växla mellan absolut och relativ radnummer
--- ================================================
+-- ============================================================
 
 -- I insertmode -> visa absolut radnummer.
 vim.api.nvim_create_autocmd("InsertEnter", {
@@ -30,17 +30,46 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.opt_local.tabstop = 4
     vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
     vim.opt_local.expandtab = true
   end,
 })
 
--- HTML / Jinja2: 2 spaces
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.html", "*.jinja", "*.jinja2", "*.j2" },
+-- HTML / CSS: 2 spaces
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "html", "css", "scss", "less" },
   callback = function()
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
     vim.opt_local.expandtab = true
   end,
 })
 
+-- Jinja / template files: 2 spaces
+--
+-- Kept separate from pure HTML because template filetypes can vary
+-- depending on how Neovim detects them.
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.jinja", "*.jinja2", "*.j2" },
+  callback = function()
+    vim.opt_local.filetype = "jinja"
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
+-- Makefile: real tabs
+--
+-- Make recipes require literal tab characters.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "make",
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 0
+    vim.opt_local.expandtab = false
+  end,
+})

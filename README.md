@@ -1,112 +1,119 @@
-# Min Neovim-konfiguration
+## KeymapsDenna konfiguration använder `<leader>` som mellanslag (`Space`).
 
-En minimal men kraftfull Neovim-setup, byggd på **Lua** och **Lazy.nvim**, med fokus på enkelhet, robusthet och tydlighet.  
-Stöd för Python, Go, C/C++, Nim och HTML/Jinja2 – med dynamisk indentering och färgteman.  
+Keymaps är uppdelade efter funktion: grundläggande Vim-flöde, navigation, vyhantering, LSP, completion, Copilot och projektverktyg.
 
----
+### Grundläggande
 
-## Struktur
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `jk` | Insert / Visual | Lämna insert/visual mode |
+| `<leader>w` | Normal | Spara fil (`:w`) |
+| `<leader>q` | Normal | Stäng fönster (`:q`) |
 
-- `init.lua` → laddar alla moduler
-- `lua/core/`
-  - `options.lua` → UI-inställningar (radnummer, färgkolumn, etc.)
-  - `keymaps.lua` → Egna keymaps
-  - `autocmds.lua` → Autokommandon (radnummer, indentering beroende på filtyp)
-  - `commands.lua` → Egna kommandon (ex: `:CopyOSC`)
-  - `theme.lua` → Dynamisk färgtema-hantering
-  - `lsp.lua` → LSP-konfiguration för Python, Nim, Go, C/C++, HTML/Jinja2
-- `lua/plugins/init.lua` → Lazy.nvim + plugin-lista
-- `scripts/`
-  - `setup.sh` → Installerar LSP-servrar och beroenden
-  - `install_nvim_latest.sh` → Installerar senaste stabila NeoVim
-- `Makefile` → snabbkommandon (`make setup`, `make push`, `make pull`)
-- `sync.sh` → Git-sync för konfiguration
-- `.gitignore` → ignorerar `theme.txt` (lokal preferens)
+### Tabbar och fönster
 
----
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `<leader>gt` | Normal | Gå till nästa tab |
+| `<leader>gT` | Normal | Gå till föregående tab |
 
-## Plugin manager
-- [Lazy.nvim](https://github.com/folke/lazy.nvim) används för plugin-hantering
-- Plugins definieras i `lua/plugins/init.lua`
-- `:Lazy sync` → installera
-- `:Lazy clean` → ta bort oanvända plugins
+### Tema
 
----
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `<leader>t` | Normal | Växla mellan dark/light theme |
 
-## Keymaps
+### Navigation safety layer
 
-- `<leader>w` → spara (`:w`)
-- `<leader>q` → stäng buffert (`:q`)
-- `jk` → Esc i insert/visual mode
-- `Alt + j/k` → flytta rader upp/ner
-- `<leader>t` → växla mellan Dark/Light mode
-- `gd` → gå till definition (LSP)
-- `K` → hover-dokumentation (LSP)
-- `<leader>rn` → byt namn (LSP)
-- `<leader>ca` → code actions (LSP)
+För att undvika oavsiktliga mutationer är `H`, `J`, `K`, `L` i normal mode mappade till ren navigation.
 
----
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `H` | Normal | Flytta vänster |
+| `J` | Normal | Flytta nedåt |
+| `K` | Normal | Flytta uppåt |
+| `L` | Normal | Flytta höger |
 
-## Tema
+> Obs: Eftersom `K` används som navigation i `core/keymaps.lua` kan standard-LSP-hover på `K` behöva flyttas eller prioriteras beroende på laddordning.
 
-- **Dark mode**: `rose-pine (moon)`  
-- **Light mode**: `dayfox`  
-- Växla mellan dem med `<leader>t`  
-- Valet sparas lokalt i `theme.txt` (exkluderad från Git)  
+### LSP
 
----
+LSP-keymaps aktiveras när en språkserver är kopplad till bufferten.
 
-## Plugins (urval)
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `gd` | Normal | Gå till definition |
+| `K` | Normal | Visa hover-dokumentation |
+| `gr` | Normal | Visa references |
+| `<leader>rn` | Normal | Rename symbol |
+| `<leader>ca` | Normal | Code action |
 
-- `telescope.nvim` – fuzzy finder
-- `nvim-tree` – filträd
-- `lualine.nvim` – statuslinje (med Copilot-status)
-- `nvim-treesitter` – syntax highlighting
-- `gitsigns.nvim` – git-indikatorer
-- `Comment.nvim` – snabbkommentering
-- `nvim-cmp` – autocompletion
-- `LuaSnip` – snippets
-- `nvim-lspconfig` – språkserver-integration
-- `copilot.vim` – GitHub Copilot AI
+### Completion / nvim-cmp
 
----
+`nvim-cmp` används som manuell LSP-/referenslista. Den öppnas inte automatiskt, utan används när exakt språkstöd behövs.
 
-## LSP-servrar
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `<C-Space>` | Insert | Öppna completion-lista manuellt |
+| `<C-n>` | Insert | Nästa completion-förslag |
+| `<C-p>` | Insert | Föregående completion-förslag |
+| `<CR>` | Insert | Acceptera markerat completion-förslag |
+| `<C-d>` | Insert | Visa/dölj dokumentation för markerat förslag |
+| `<C-f>` | Insert | Scrolla dokumentation nedåt |
+| `<C-b>` | Insert | Scrolla dokumentation uppåt |
+| `<C-e>` | Insert | Stäng completion-listan |
 
-Konfigurerade i `core/lsp.lua`:
+Designprincipen är att LSP/cmp fungerar som ett uppslagsverk: exakt, lokalt och manuellt.
 
-- **Python** → `pyright` (automatisk upptäckt av virtuell miljö)  
-- **Nim** → `nim_langserver`  
-- **Go** → `gopls`  
-- **C/C++** → `clangd`  
-- **HTML/Jinja2** → `vscode-html-language-server` (hanterar HTML, ignorerar Jinja-block)  
+### GitHub Copilot
 
-Kommando:  
-```vim
-:LspPyPath
+Copilot används som primär inline-skrivhjälp. `Tab` tillhör Copilot, inte `nvim-cmp`.
 
----
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `<Tab>` | Insert | Acceptera hela Copilot-förslaget |
+| `<S-Tab>` | Insert | Acceptera nästa ord av Copilot-förslaget |
+| `<C-g>l` | Insert | Acceptera nästa rad av Copilot-förslaget |
+| `<C-g>n` | Insert | Nästa Copilot-förslag |
+| `<C-g>p` | Insert | Föregående Copilot-förslag |
+| `<C-g>g` | Insert | Generera / be om nytt Copilot-förslag |
+| `<C-g>d` | Insert | Avvisa aktuellt Copilot-förslag |
+| `<leader>cp` | Normal | Öppna Copilot panel |
+| `<leader>cs` | Normal | Visa Copilot status |
+| `<leader>ce` | Normal | Aktivera Copilot |
+| `<leader>cd` | Normal | Stäng av Copilot |
 
-## Scripts
+Designprincipen är att Copilot sköter skrivflödet, medan LSP/cmp används som referenssystem.
 
-- `scripts/setup.sh` → installerar Node.js, Pyright, gopls, clangd, HTML LSP  
-- `scripts/install_nvim_latest.sh` → installerar senaste Neovim  
-- `sync.sh` → förenklad Git-sync (push/pull)  
+### Curate
 
----
+Egna keymaps för strukturell manipulation via Curate-adaptern.
 
-## Makefile
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `<leader>f` | Normal | Curate: fold deeper |
+| `<leader>F` | Normal | Curate: fold max |
+| `<leader>u` | Normal | Curate: unfold one level |
+| `<leader>U` | Normal | Curate: unfold all |
 
-För att slippa långa kommandon finns en enkel `Makefile` med färdiga genvägar:
+### View / kamera
 
-- `make setup` → installerar alla LSP-servrar och beroenden (idempotent, hoppar över det som redan finns)  
-- `make nvim` → installerar senaste stabila versionen av Neovim  
-- `make push` → pushar din config till GitHub (via `sync.sh`)  
-- `make pull` → hämtar senaste ändringar från GitHub  
+Dessa keymaps separerar markörposition från viewport-position. De används för att styra var i fönstret markören placeras visuellt.
 
-Standardmålet är `help`, så om du kör bara `make` listas alla tillgängliga kommandon.
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `<leader><leader>` | Normal | Reset view till upper-mid |
+| `<leader>v` | Normal | Placera markören nära toppen |
+| `<leader>V` | Normal | Placera markören nära botten |
+| `<leader>1v` | Normal | View position 1 |
+| `<leader>2v` | Normal | View position 2 |
+| `<leader>3v` | Normal | View position 3 |
+| `<leader>4v` | Normal | View position 4 |
+| `<leader>5v` | Normal | View position 5 |
 
-```bash
-make        # visar hjälp
-make setup  # installerar miljön
-make push   # synkar config till GitHub
+### Filesystem / Oil
+
+| Keymap | Mode | Funktion |
+|---|---|---|
+| `-` | Normal | Öppna parent directory i Oil |
+| `<leader>e` | Normal | Öppna projektrot/current working directory i Oil |

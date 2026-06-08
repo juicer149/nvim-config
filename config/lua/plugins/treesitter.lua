@@ -1,59 +1,36 @@
--- lua/plugins/treesitter.lua
---
--- Tree-sitter configuration.
--- Responsible ONLY for syntax structure, not colors.
-
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "master",
   build = ":TSUpdate",
 
-  opts = {
-    ensure_installed = {
-      -- Core
-      "lua",
-      "vim",
-      "vimdoc",
-
-      -- Shell & config
-      "bash",
-      "json",
-      "yaml",
-      "toml",
-
-      -- Docs / text
-      "markdown",
-      "markdown_inline",
-
-      -- VCS
-      "gitignore",
-      "gitcommit",
-
-      -- Languages you actually use
-      "python",
-      "c",
-      "cpp",
-      "go",
-      "nim",
-
-      -- Internal helpers
-      "regex",
-      "query",
-      "comment",
-    },
-
-    highlight = {
-      enable = true,
-
-      -- Keep regex highlighting for python
-      -- (docstrings, decorators still come from Vim syntax)
-      additional_vim_regex_highlighting = {
+  config = function()
+    require("nvim-treesitter.configs").setup({
+      ensure_installed = {
         "python",
+        "lua",
+        "vim",
+        "vimdoc",
+        "bash",
+        "json",
+        "yaml",
+        "toml",
+        "html",
+        "css",
+        "markdown",
+        "markdown_inline",
+        "c",
+        "cpp",
+        "go",
+        "nim",
+        "regex",
+        "query",
       },
-    },
-
-    indent = {
-      enable = true,
-      disable = { "python" },
-    },
-  },
+      highlight = {
+        enable = true,
+      },
+      indent = {
+        enable = true,
+      },
+    })
+  end,
 }

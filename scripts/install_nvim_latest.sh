@@ -1,19 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[nvim] Installing latest stable Neovim"
+echo "[nvim] Installing/updating latest stable Neovim"
 
-# --------------------------------------------------
-# Config
-# --------------------------------------------------
 INSTALL_DIR="/usr/local"
-BIN_DIR="${INSTALL_DIR}/bin"
-NVIM_BIN="${BIN_DIR}/nvim"
 TMP_DIR="$(mktemp -d)"
+ARCHIVE_NAME="nvim-linux-x86_64.tar.gz"
+EXTRACTED_DIR="nvim-linux-x86_64"
+ARCHIVE_URL="https://github.com/neovim/neovim/releases/latest/download/${ARCHIVE_NAME}"
 
-# --------------------------------------------------
-# Helpers
-# --------------------------------------------------
 cleanup() {
   rm -rf "$TMP_DIR"
 }
@@ -23,41 +18,37 @@ has() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# --------------------------------------------------
-# Preflight
-# --------------------------------------------------
+echo "[nvim] current:"
 if has nvim; then
-  CURRENT_VERSION="$(nvim --version | head -n1 || true)"
-  echo "[nvim] already installed: ${CURRENT_VERSION}"
-  exit 0
+  nvim --version | head -n1 || true
+else
+  echo "not installed"
 fi
-
-# --------------------------------------------------
-# Download latest release
-# --------------------------------------------------
-echo "[nvim] fetching latest release"
-
-ARCHIVE_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
 
 cd "$TMP_DIR"
-curl -fL "$ARCHIVE_URL" -o nvim.tar.gz
 
-# --------------------------------------------------
-# Extract & install
-# --------------------------------------------------
+echo "[nvim] downloading ${ARCHIVE_URL}"
+curl -fL "$ARCHIVE_URL" -o "$ARCHIVE_NAME"
+
 echo "[nvim] extracting"
-tar xzf nvim.tar.gz
+tar xzf "$ARCHIVE_NAME"
+
+echo "[nvim] removing old /usr/local install"
+sudo rm -rf \
+  /usr/local/bin/nvim \
+  /usr/local/lib/nvim \
+  /usr/local/share/nvim \
+  /usr/local/man/man1/nvim.1 \
+  /usr/local/share/applications/nvim.desktop \
+  /usr/local/share/icons/hicolor/128x128/apps/nvim.png
 
 echo "[nvim] installing to ${INSTALL_DIR}"
-sudo cp -r nvim-linux64/* "$INSTALL_DIR/"
+sudo cp -r "${EXTRACTED_DIR}/"* "$INSTALL_DIR/"
 
-# --------------------------------------------------
-# Verify
-# --------------------------------------------------
-if ! has nvim; then
-  echo "[error] nvim installation failed"
-  exit 1
+echo "[nvim] installed:"
+hash -r
+/usr/local/bin/nvim --version | head -n1
+
+if command -v nvim >/dev/null 2>&1; then
+  echo "[nvim] resolved path: $(command -v nvim)"
 fi
-
-echo "[nvim] installed successfully:"
-nvim --version | head -n1

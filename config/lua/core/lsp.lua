@@ -4,6 +4,7 @@
 -- ############################################################
 
 local util = require("lspconfig.util")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- ============================================================
 -- on_attach: keymaps when an LSP server attaches
@@ -45,7 +46,7 @@ end
 
 vim.lsp.config("*", {
   on_attach = on_attach,
-  capabilities = vim.lsp.protocol.make_client_capabilities(),
+  capabilities = capabilities,
 })
 
 -- ============================================================
@@ -100,7 +101,7 @@ vim.lsp.config("gopls", {})
 vim.lsp.config("clangd", {})
 
 -- ============================================================
--- HTML (+ Jinja trick)
+-- HTML
 -- ============================================================
 
 vim.lsp.config("html", {
@@ -108,6 +109,25 @@ vim.lsp.config("html", {
   init_options = {
     configurationSection = { "html", "css", "javascript" },
     embeddedLanguages = { css = true, javascript = true },
+  },
+})
+
+-- ============================================================
+-- CSS
+-- ============================================================
+
+vim.lsp.config("cssls", {
+  filetypes = { "css", "scss", "less" },
+  settings = {
+    css = {
+      validate = true,
+    },
+    scss = {
+      validate = true,
+    },
+    less = {
+      validate = true,
+    },
   },
 })
 
@@ -121,6 +141,7 @@ vim.lsp.enable({
   "gopls",
   "clangd",
   "html",
+  "cssls",
 })
 
 -- ============================================================

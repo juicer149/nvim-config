@@ -67,16 +67,19 @@ map("n", "<leader>gT", "gT", { desc = "Previous tab" })
 
 -- ============================================================================
 -- THEME CONTROL
--- Runtime editor state
+-- Runtime editor appearance
 -- ============================================================================
 
--- THEME CONTROL
--- Global editor state
-
 map("n", "<leader>t", function()
-  require("tools.theme").toggle()
+  require("appearance").toggle()
 end, {
-  desc = "Toggle dark / light theme",
+  desc = "Toggle editor text/theme",
+})
+
+map("n", "<leader>T", function()
+  require("appearance").toggle_background()
+end, {
+  desc = "Toggle terminal/theme background",
 })
 
 -- ============================================================================

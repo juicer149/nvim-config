@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[nvim] Installing language servers and tooling"
+echo "[nvim] Installing language servers, parsers, and tooling"
 
-# --------------------------------------------------
-# Helpers
-# --------------------------------------------------
 has() {
   command -v "$1" >/dev/null 2>&1
 }
@@ -18,27 +15,20 @@ npm_install() {
   sudo npm install -g "$@"
 }
 
-# --------------------------------------------------
-# Declarative requirements
-# --------------------------------------------------
-
 APT_PKGS=(
   curl
+  git
+  tar
+  build-essential
+  gcc
+  g++
   clangd
-)
-
-NPM_PKGS=(
-  pyright
-  vscode-langservers-extracted
 )
 
 GO_PKGS=(
   golang.org/x/tools/gopls@latest
 )
 
-# --------------------------------------------------
-# APT packages
-# --------------------------------------------------
 MISSING_APT=()
 for pkg in "${APT_PKGS[@]}"; do
   has "$pkg" || MISSING_APT+=("$pkg")
@@ -50,35 +40,36 @@ if [ "${#MISSING_APT[@]}" -ne 0 ]; then
   apt_install "${MISSING_APT[@]}"
 fi
 
-# --------------------------------------------------
-# Node.js (prerequisite for npm LSPs)
-# --------------------------------------------------
 if ! has node; then
   echo "[node] Installing Node.js LTS"
   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
   sudo apt install -y nodejs
 fi
 
-# --------------------------------------------------
-# npm-based LSPs
-# --------------------------------------------------
-MISSING_NPM=()
-for pkg in "${NPM_PKGS[@]}"; do
-  has "$pkg" || MISSING_NPM+=("$pkg")
-done
-
-if [ "${#MISSING_NPM[@]}" -ne 0 ]; then
-  echo "[npm] Installing: ${MISSING_NPM[*]}"
-  npm_install "${MISSING_NPM[@]}"
+if ! has npm; then
+  echo "[error] npm not found after Node.js install"
+  exit 1
 fi
 
-# --------------------------------------------------
-# Go-based LSPs
-# --------------------------------------------------
+if ! has tree-sitter; then
+  echo "[npm] Installing tree-sitter-cli"
+  npm_install tree-sitter-cli
+fi
+
+if ! has pyright; then
+  echo "[npm] Installing pyright"
+  npm_install pyright
+fi
+
+if ! has vscode-html-language-server || ! has vscode-css-language-server; then
+  echo "[npm] Installing vscode-langservers-extracted"
+  npm_install vscode-langservers-extracted
+fi
+
 if has go && ! has gopls; then
   echo "[go] Installing gopls"
   go install "${GO_PKGS[@]}"
   echo "[note] Ensure \$HOME/go/bin is in PATH"
 fi
 
-echo "[nvim] LSP installation complete"
+echo "[nvim] Tooling installation complete"

@@ -13,6 +13,6 @@ require("core.commands")
 require("plugins")
 
 -- Theme autoload loader
-require("tools.theme").autoload()
+require("appearance").autoload()
 
 require("core.lsp")
