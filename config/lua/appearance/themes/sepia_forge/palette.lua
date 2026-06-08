@@ -38,11 +38,11 @@ return {
   keyword_subtle = "#6F241D",
 
   type = "#4A5A67",
-  function_ = "#5A3B22",
-  builtin = "#A45C2A",
+  function_ = "#4F5A2A",
+  builtin = "#8F5B34",
 
   number = "#6F241D",
-  constant = "#704214",
+  constant = "#76491F",
 
   -- Diagnostics
   error = "#9A2A22",

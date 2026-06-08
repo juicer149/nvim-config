@@ -19,7 +19,7 @@ function M.build(c)
     comment = { fg = c.comment, italic = false },
     string = { fg = c.string, italic = false },
     number = { fg = c.number },
-    constant = { fg = c.constant, bold = true },
+    constant = { fg = c.constant, bold = false },
 
     -- Syntax semantics
     keyword = { fg = c.keyword, bold = false },

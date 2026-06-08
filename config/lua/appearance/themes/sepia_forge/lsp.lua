@@ -16,7 +16,6 @@ function M.apply(a, _c, r)
     -- Pyright / basedpyright default-library type-like symbols.
     "@lsp.typemod.class.defaultLibrary",
     "@lsp.typemod.type.defaultLibrary",
-    "@lsp.typemod.variable.defaultLibrary",
   })
 
   a.role(r.function_, {
@@ -32,6 +31,7 @@ function M.apply(a, _c, r)
 
   a.role(r.text, {
     "@lsp.type.variable",
+    "@lsp.typemod.variable.defaultLibrary",
     "@lsp.type.parameter",
     "@lsp.type.property",
   })

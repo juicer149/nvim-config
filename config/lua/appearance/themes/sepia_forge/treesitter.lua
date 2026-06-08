@@ -23,7 +23,6 @@ function M.apply(a, _c, r)
   a.role(r.builtin, {
     "@boolean",
     "@constant.builtin",
-    "@variable.builtin",
     "@function.builtin",
     "@attribute",
     "@attribute.python",
@@ -37,6 +36,7 @@ function M.apply(a, _c, r)
 
   a.role(r.text, {
     "@variable",
+    "@variable.builtin",
     "@variable.member",
     "@property",
     "@operator",
