@@ -35,9 +35,19 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- HTML / CSS: 2 spaces
+-- Web files: 2 spaces
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "html", "css", "scss", "less" },
+  pattern = {
+    "html",
+    "css",
+    "scss",
+    "less",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json",
+  },
   callback = function()
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
