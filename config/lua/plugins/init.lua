@@ -45,6 +45,19 @@ require("lazy").setup({
   { "nvim-lualine/lualine.nvim" },
   { "nvim-tree/nvim-web-devicons" },
 
+  {
+    "shortcuts/no-neck-pain.nvim",
+    version = "*",
+    opts = {
+      width = 104,
+      autocmds = {
+        enableOnVimEnter = false,
+        enableOnTabEnter = false,
+        reloadOnColorSchemeChange = false,
+        skipEnteringNoNeckPainBuffer = true,
+      },
+    },
+  },
   -- ======================================================================
   -- SYNTAX / LEGACY
   -- ======================================================================

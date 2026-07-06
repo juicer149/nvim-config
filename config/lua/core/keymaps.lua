@@ -38,18 +38,6 @@ map("i", "jk", "<Esc>", { desc = "Escape insert mode" })
 map("v", "jk", "<Esc>", { desc = "Escape visual mode" })
 
 -- ============================================================================
--- YANK / CLIPBOARD SEMANTICS
--- Yank = system clipboard via OSC52
--- ============================================================================
-
-local yank = require("tools.yank")
-
-map("v", "y", yank.visual_to_clipboard, {
-  desc = "Yank selection to system clipboard",
-  silent = true,
-})
-
--- ============================================================================
 -- LEADER BASICS
 -- Session / window lifecycle
 -- ============================================================================
@@ -109,9 +97,18 @@ map("n", "<leader>U", curate.unfold_all,  { desc = "Curate: unfold all" })
 -- ============================================================================
 
 local view = require("tools.view")
+local center = require("tools.center")
+
+map("n", "<leader>z", center.toggle, {
+  desc = "Toggle centered editor",
+})
+
+map("n", "<leader>Z", center.auto, {
+  desc = "Auto centered editor",
+})
 
 map("n", "<leader><leader>", function()
-  view.set(2)
+  view.set(3)
 end, { desc = "View: upper-mid (reset)" })
 
 map("n", "<leader>v", function()
