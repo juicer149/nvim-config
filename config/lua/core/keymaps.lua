@@ -82,13 +82,16 @@ map("n", "L", "l", { silent = true })
 
 -- ============================================================================
 -- STRUCTURAL MANIPULATION (CURATE)
--- Explicit structure control
+-- Zoom through the structural path at the cursor.
+-- The adapter lives in the curate repo (adapters/nvim, added to rtp in init.lua).
 -- ============================================================================
-local curate = require("tools.curate")
-map("n", "<leader>f", curate.fold_next, { desc = "Curate: fold deeper" })
-map("n", "<leader>F", curate.fold_max,  { desc = "Curate: fold max" })
-map("n", "<leader>u", curate.unfold_next, { desc = "Curate: unfold one level" })
-map("n", "<leader>U", curate.unfold_all,  { desc = "Curate: unfold all" })
+local ok_curate, curate = pcall(require, "curate_view")
+if ok_curate then
+  map("n", "<leader>f", curate.fold_next,   { desc = "Curate: zoom out one scope" })
+  map("n", "<leader>F", curate.fold_max,    { desc = "Curate: zoom out to outermost scope" })
+  map("n", "<leader>u", curate.unfold_next, { desc = "Curate: zoom in one scope" })
+  map("n", "<leader>U", curate.unfold_all,  { desc = "Curate: unfold all" })
+end
 
 
 -- ============================================================================

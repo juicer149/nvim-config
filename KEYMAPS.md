@@ -96,10 +96,10 @@ Copilot är primär inline-skrivhjälp.
 
 | Keymap | Mode | Funktion |
 |---|---|---|
-| `<leader>f` | Normal | Fold deeper |
-| `<leader>F` | Normal | Fold max |
-| `<leader>u` | Normal | Unfold one level |
-| `<leader>U` | Normal | Unfold all |
+| `<leader>f` | Normal | Zooma ut ett scope |
+| `<leader>F` | Normal | Zooma ut till yttersta scopet |
+| `<leader>u` | Normal | Zooma in ett scope |
+| `<leader>U` | Normal | Öppna allt |
 
 ---
 

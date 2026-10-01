@@ -87,14 +87,14 @@ Designprincipen är att Copilot sköter skrivflödet, medan LSP/cmp används som
 
 ### Curate
 
-Egna keymaps för strukturell manipulation via Curate-adaptern.
+Zooma genom den strukturella vägen vid markören (innersta scopet, sedan föräldern osv.). Adaptern `curate_view` ligger i curate-repot (`adapters/nvim`) och läggs till i runtimepath i `init.lua`; saknas repot sätts inga keymaps.
 
 | Keymap | Mode | Funktion |
 |---|---|---|
-| `<leader>f` | Normal | Curate: fold deeper |
-| `<leader>F` | Normal | Curate: fold max |
-| `<leader>u` | Normal | Curate: unfold one level |
-| `<leader>U` | Normal | Curate: unfold all |
+| `<leader>f` | Normal | Curate: zooma ut ett scope |
+| `<leader>F` | Normal | Curate: zooma ut till yttersta scopet |
+| `<leader>u` | Normal | Curate: zooma in ett scope |
+| `<leader>U` | Normal | Curate: öppna allt |
 
 ### View / kamera
 
