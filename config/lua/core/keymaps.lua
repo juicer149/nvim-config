@@ -88,9 +88,11 @@ map("n", "L", "l", { silent = true })
 local ok_curate, curate = pcall(require, "curate_view")
 if ok_curate then
   map("n", "<leader>f", curate.fold_next,   { desc = "Curate: zoom out one scope" })
-  map("n", "<leader>F", curate.fold_max,    { desc = "Curate: zoom out to outermost scope" })
+  map("n", "<leader>F", curate.fold_max,    { desc = "Curate: fold the file one level" })
   map("n", "<leader>u", curate.unfold_next, { desc = "Curate: zoom in one scope" })
-  map("n", "<leader>U", curate.unfold_all,  { desc = "Curate: unfold all" })
+  map("n", "<leader>U", curate.unfold_all,  { desc = "Curate: unfold the file one level" })
+  map("n", "<leader>j", curate.next_head,   { desc = "Curate: next def/class/heading" })
+  map("n", "<leader>k", curate.prev_head,   { desc = "Curate: previous def/class/heading" })
 end
 
 
